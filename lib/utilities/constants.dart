@@ -14,7 +14,7 @@ const kMessageTextStyle = TextStyle(
 
 const kOtherTextStyle = TextStyle(
   fontFamily: 'Lobster Regular',
-  fontSize: 25.0,
+  fontSize: 20.0,
 );
 
 const kSunTextStyle = TextStyle(

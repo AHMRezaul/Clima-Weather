@@ -79,7 +79,7 @@ class _LocationScreenState extends State<LocationScreen> {
       // print(DateTime.fromMillisecondsSinceEpoch(adjustedSunrise));
       // print(DateTime.fromMillisecondsSinceEpoch(adjustedSunset));
 
-      double temp = weatherData['main']['temp'];
+      var temp = weatherData['main']['temp'];
       temperature = temp.toInt();
 
       humidity = weatherData['main']['humidity'];
