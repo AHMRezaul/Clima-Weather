@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/screens/city_screen.dart';
+import 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_rounded_progress_bar/flutter_rounded_progress_bar.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.locationWeather});
@@ -28,6 +30,7 @@ class _LocationScreenState extends State<LocationScreen> {
   var currentTime;
   var sunset;
   var sunrise;
+  double percent;
 
   @override
   void initState() {
@@ -38,12 +41,17 @@ class _LocationScreenState extends State<LocationScreen> {
   void updateUI(dynamic weatherData) {
     setState(() {
       if (weatherData == null) {
+        //time data
         timezone = 0;
         sunset = 0;
         sunrise = 0;
+        currentTime = 0;
+        percent = 0;
 
+        //background image
         bgimage = 'images/sunny-day.jpeg';
 
+        //weather data
         temperature = 0;
         humidity = 0;
         weatherIcon = '🤷‍';
@@ -52,13 +60,15 @@ class _LocationScreenState extends State<LocationScreen> {
         description = 'Error';
         return;
       }
-      print(weatherData);
+      // print(weatherData);
+      //Time data calculation
       timezone = weatherData['timezone'];
-      currentTime = DateTime.now()
+      var tempCurrentTime = DateTime.now()
           .add(Duration(
               seconds: timezone - DateTime.now().timeZoneOffset.inSeconds))
           .millisecondsSinceEpoch;
-      // currentTime = weatherData['dt'] * 1000;
+      currentTime = DateFormat.jm()
+          .format(DateTime.fromMillisecondsSinceEpoch(tempCurrentTime));
       var tempSunrise = weatherData['sys']['sunrise'] * 1000;
       var tempAdjustedSunrise = DateTime.fromMillisecondsSinceEpoch(tempSunrise)
           .add(Duration(
@@ -79,6 +89,7 @@ class _LocationScreenState extends State<LocationScreen> {
       // print(DateTime.fromMillisecondsSinceEpoch(adjustedSunrise));
       // print(DateTime.fromMillisecondsSinceEpoch(adjustedSunset));
 
+      //Weather data calculation
       var temp = weatherData['main']['temp'];
       temperature = temp.toInt();
 
@@ -91,8 +102,21 @@ class _LocationScreenState extends State<LocationScreen> {
       cityName = weatherData['name'];
       message = weather.getMessage(temperature);
 
+      //Background Image
       bgimage = weather.getBgImage(
-          condition, currentTime, adjustedSunrise, adjustedSunset);
+          condition, tempCurrentTime, adjustedSunrise, adjustedSunset);
+
+      //percentage calculation
+      int totalTime = adjustedSunset - adjustedSunrise;
+      int tillNow = tempCurrentTime - adjustedSunrise;
+      double tempPercent = tillNow / totalTime * 100;
+      if (tempPercent >= 100) {
+        percent = 100;
+      } else if (tempPercent <= 0) {
+        percent = 0;
+      } else
+        percent = tempPercent;
+      // print(tempPercent);
     });
   }
 
@@ -206,31 +230,38 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: kBGColor,
-                    borderRadius: BorderRadius.circular(10),
+                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                child: RoundedProgressBar(
+                  style: RoundedProgressBarStyle(
+                    borderWidth: 0,
+                    widthShadow: 0,
+                    colorProgress: Color.fromRGBO(87, 87, 87, 0.3),
+                    backgroundProgress: Color.fromRGBO(0, 0, 0, 0.3),
+                    colorProgressDark: Color.fromRGBO(87, 87, 87, 0.6),
+                    colorBackgroundIcon: Color.fromRGBO(0, 0, 0, 0.3),
+                    colorBorder: Color.fromRGBO(0, 0, 0, 0.3),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Sunrise: $sunrise",
-                          textAlign: TextAlign.center,
-                          style: kSunTextStyle,
-                        ),
-                        Text(
-                          "Sunset: $sunset",
-                          textAlign: TextAlign.center,
-                          style: kSunTextStyle,
-                        ),
-                      ],
-                    ),
+                  milliseconds: 2000,
+                  childLeft: Text(
+                    "Sunrise:\n$sunrise",
+                    textAlign: TextAlign.center,
+                    style: kSunTextStyle,
                   ),
+                  paddingChildLeft: EdgeInsets.only(left: 15),
+                  childRight: Text(
+                    "Sunset:\n$sunset",
+                    textAlign: TextAlign.center,
+                    style: kSunTextStyle,
+                  ),
+                  paddingChildRight: EdgeInsets.only(right: 15),
+                  childCenter: Text(
+                    "Current Time:\n$currentTime",
+                    textAlign: TextAlign.center,
+                    style: kSunTextStyle,
+                  ),
+                  percent: percent,
+                  height: 65,
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               Padding(

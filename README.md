@@ -14,7 +14,7 @@ A flutter mobile application that can run on any android smartphones or iOS smar
 1. Internet Connection
 2. Device Location Access
 
-Using these technologies, the application can fetch the geo-location of the device and use that location to grab the weather data from the internet, such as, **Temperature (in Celsius), Weather Condition, Humidity (Percentage), Sunrise and Sunset time,** and finally provide a **short description**.
+Using these technologies, the application can fetch the geo-location of the device and use that location to grab the weather data from the internet, such as, **Temperature (in Celsius), Weather Condition, Humidity (Percentage), Sunrise and Sunset time, Local Time of the location,** and finally provide a **short description**. The app also shows an animated progression of the remaining time until sunset.
 The app can also be used to find the weather data of any major city across the world by a simple search. The *Search Field* takes a *valid city name* as input and loads the weather data from the internet for the user. The app also changes the background depending on the weather of the search location or the location of the user.
 
 ## Tools:
@@ -39,6 +39,8 @@ flutter_spinkit: ^3.1.0
 
 intl: ^0.17.0
 
+flutter_rounded_progress_bar: ^0.2.0
+
 OpenWeatherMap API
 
 ## Installation:
@@ -59,11 +61,12 @@ To install the application directly from an apk, download the file from this lin
 ![Loading Screen](https://github.com/AHMRezaul/Clima-Weather/blob/main/loading.png)
 
 ### Weather Page Demo:
-![Weather Demo 1](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather1.png)
-![Weather Demo 2](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather2.png)
-![Weather Demo 3](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather3.png)
-![Weather Demo 4](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather4.png)
-![Weather Demo 5](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather5.png)
+![Clear Sky](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather1.png)
+![Misty](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather2.png)
+![Cloudy](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather3.png)
+![Light Rain](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather4.png)
+![Drizzling](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather5.png)
+![Snowing](https://github.com/AHMRezaul/Clima-Weather/blob/main/weather6.png)
 
 ### Get weather by City Name:
-![Weather Demo 1](https://github.com/AHMRezaul/Clima-Weather/blob/main/city-name.png)
+![Get weather](https://github.com/AHMRezaul/Clima-Weather/blob/main/city-name.png)
